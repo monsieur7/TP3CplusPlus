@@ -39,11 +39,16 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
 }
 
  void Board::fillGrid(){
+    std::vector<int> already_done;
     for(int y = 0; y < _size; y++){
         for(int x = 0; x < _size; x++){
             do {
+            int number_to_place;
+            do {
+                number_to_place = rand()  % 9 + 1;
+            }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
+
             
-            int number_to_place = rand()  % 9 + 1;
             _board.at(y*_size+x) = number_to_place;
             if(!checkGridIsGood()){
              _board.at(y*_size+x) = 0;
@@ -52,7 +57,10 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
                 break;
             }
             }while(true);
+            already_done.clear();
         }
+    display();
+
     }
     //TODO : this
     // fill perfect grid first
@@ -60,15 +68,22 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
 
  }
   bool Board::checkGridIsGood(){ //TODO test this
-    for(int y = 0; y < _size; y++){
-        for(int i = 1; i <=9; i++ ){
-            if(std::count(_board.begin()+ y*_size, _board.begin() + _size, i) > 1){ // if there is more than one of each number in a line
-                return false;
-            }
+     for(int y = 0; y < _size; y++){
+        for(int i = 1; i < 10; i++ ){
+            int sum = 0;
+            for(int x = 0; x < _size; x++){
+                    if(_board.at(x+y*_size) == i){
+                        sum++;
+                    }
+                    if(sum > 1) return false;
+            }  
+
+                        
         }
     }
+
     for(int x = 0; x < _size; x++){ // check vertical lines
-        for(int i = 1; i <=9; i++ ){
+        for(int i = 1; i < 10; i++ ){
             //TODO : ask teacher : can we use std::count ? 
             //cant use count on vertical lines
             // doing it manually

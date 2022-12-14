@@ -39,7 +39,21 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
 }
 
  void Board::fillGrid(){
-    
+    for(int y = 0; y < _size; y++){
+        for(int x = 0; x < _size; x++){
+            do {
+            
+            int number_to_place = rand()  % 9 + 1;
+            _board.at(y*_size+x) = number_to_place;
+            if(!checkGridIsGood()){
+             _board.at(y*_size+x) = 0;
+            }
+            else {
+                break;
+            }
+            }while(true);
+        }
+    }
     //TODO : this
     // fill perfect grid first
     // then permutate
@@ -121,6 +135,7 @@ for(int y = 0; y < board._size; y++){
             in << "────";
         }in << std::endl;
         }
+        return in;
     }        
 
 }

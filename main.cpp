@@ -16,5 +16,8 @@ int main(void){
     setvbuf(stdout, nullptr, _IOFBF, 1000);
 #endif
     Sudoku::Board board(9, 1);
+    std::cout << board.checkGridIsGood() << std::endl;
+    board.display();
+    board.fillGrid();
     board.display();
 }

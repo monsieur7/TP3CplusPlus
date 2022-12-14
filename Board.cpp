@@ -1,6 +1,14 @@
 #include "Board.h"
-Board::Board(int size){
+namespace Sudoku {
+Board::Board(int size, int difficulty){
     _size = size;
+    if(difficulty < 0 || difficulty > 5) {
+        throw std::runtime_error("difficulty must be between 1 and 5");
+    }
+    else {
+    _difficulty =difficulty;
+
+    }
     _board.resize(_size*_size);
     for(int i = 0; i < _board.size(); i++){
         _board.at(i) = 0;
@@ -44,7 +52,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
             if(std::count(_board.begin()+ y*_size, _board.begin() + _size, i) > 1){ // if there is more than one of each number in a line
                 return false;
             }
-        }x
+        }
     }
     for(int x = 0; x < _size; x++){ // check vertical lines
         for(int i = 1; i <=9; i++ ){
@@ -92,3 +100,28 @@ bool Board::checkCase(int case_x, int case_y) {
     return true;
     
 }
+std::ostream& operator<<(std::ostream& in, const Board& board){
+for(int y = 0; y < board._size; y++){
+        in << "  ";// in order to align everything
+        for(int x = 0; x < board._size; x++){ // nice horizontal lne
+            in << "────";
+        }in << std::endl;
+
+        for(int x = 0; x < board._size; x++){
+            in << " │ " << board._board.at(y*board._size + x);
+            if(x == board._size - 1){
+                in << " │";
+            }
+        }
+
+        in << std::endl;
+        if(y == board._size - 1){ // nice horizontal line for the last line
+             in << "  "; // in order to align everything
+            for(int x = 0; x < board._size; x++){
+            in << "────";
+        }in << std::endl;
+        }
+    }        
+
+}
+

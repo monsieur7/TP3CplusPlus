@@ -15,6 +15,6 @@ int main(void){
     SetConsoleOutputCP(CP_UTF8);
     setvbuf(stdout, nullptr, _IOFBF, 1000);
 #endif
-    Board board(12);
+    Suduko::Board board(12, 1);
     board.display();
 }

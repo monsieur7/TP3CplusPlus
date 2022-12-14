@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.0.0)
 project(sudoku VERSION 0.1.0)
 include(CTest)
 enable_testing()
-
 add_executable(sudoku main.cpp Board.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

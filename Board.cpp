@@ -14,7 +14,6 @@ Board::Board(int size, int difficulty){
         _board.at(i) = 0;
     }
 }
-
 void Board::display(){ //TODO display bigger lines outside 3*3 cases
     for(int y = 0; y < _size; y++){
         std::cout << "  ";// in order to align everything
@@ -98,6 +97,7 @@ bool Board::checkCase(int case_x, int case_y) {
     }
     }
     return true;
+    //test
     
 }
 std::ostream& operator<<(std::ostream& in, const Board& board){

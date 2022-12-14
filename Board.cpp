@@ -124,5 +124,14 @@ for(int y = 0; y < board._size; y++){
     }        
 
 }
+
+void backtracking(int position){
+    if(position == _board.size()){
+        return true;
+    }
+    int i = position / 9 , j = position % 9;
+
+    if(_board[i + j] == )
+}
 }
 

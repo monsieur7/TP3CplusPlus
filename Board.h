@@ -18,6 +18,7 @@ class Board {
         void display();
         void fillGrid();
         friend std::ostream& operator<<(std::ostream& in,const Board& board);
+        void backtracking();
 };
 
 }

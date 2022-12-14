@@ -20,4 +20,5 @@ int main(void){
     board.display();
     board.fillGrid();
     board.display();
+    board.checkGridIsGood();
 }

@@ -13,11 +13,13 @@ class Board {
         bool checkCase(int case_x, int case_y); 
 
     public:
+        bool checkGridIsGood();
         Board(int size, int difficulty);
         void display();
         void fillGrid();
         bool checkGridIsGood();
         friend std::ostream& operator<<(std::ostream& in,const Board& board);
+        bool backtracking(int position);
 };
 
 }

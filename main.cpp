@@ -18,7 +18,6 @@ int main(void){
     Sudoku::Board board(9, 1);
     std::cout << board.checkGridIsGood() << std::endl;
     board.display();
-    board.fillGrid();
+    //board.fillGrid();
     board.display();
-    board.checkGridIsGood();
 }

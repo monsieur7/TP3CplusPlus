@@ -157,25 +157,25 @@ for(int y = 0; y < board._size; y++){
 }
 
 bool Board::backtracking(int position){
-    if(position == _board._size){
+    if(position == _board.size()){
         return true;
     }
-    int i = (position % _board._size) - 1 , j = std::round(position / _board._size);
+    int i = (position % _size) - 1 , j = std::round(position / _size);
 
-    if(_board[i + j * _board._size] != 0)
+    if(_board[i + j * _size] != 0)
         return backtracking(position + 1);
 
-    for (int k=1; k <= _board._size; k++)
+    for (int k=1; k <= _size; k++)
     {
         if (checkGridIsGood() && checkCase(i, j));
         {
-            _grid.at(position) = k;
+            _board.at(position) = k;
 
             if (backtracking(position+1))
                 return true;
         }
     }
-    _grid.at(position) == 0;
+    _board.at(position) == 0;
 
     return false;
 }

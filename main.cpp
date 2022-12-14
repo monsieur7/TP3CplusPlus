@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "Board.h"
-
+#include <ctime>
 #ifdef _WIN64 
 #include <windows.h>
 #endif
@@ -10,6 +10,7 @@
 #endif
 
 int main(void){
+    srand(time(nullptr));
     #if defined( _WIN32) || defined(_WIN64)
 // enabling buffering and utf8 characters for windows only
     SetConsoleOutputCP(CP_UTF8);
@@ -18,6 +19,7 @@ int main(void){
     Sudoku::Board board(9, 1);
     std::cout << board.checkGridIsGood() << std::endl;
     board.display();
-    //board.fillGrid();
+    board.fillGrid();
+    std::cout << board.checkGridIsGood() << std::endl;
     board.display();
 }

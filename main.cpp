@@ -17,5 +17,5 @@ int main(void){
 #endif
     Sudoku::Board board(9, 1);
     board.display();
-    board.check
+    board.checkGridIsGood();
 }

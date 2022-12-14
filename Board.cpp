@@ -1,4 +1,5 @@
 #include "Board.h"
+#include <cmath>
 namespace Sudoku {
 Board::Board(int size, int difficulty){
     _size = size;
@@ -125,13 +126,14 @@ for(int y = 0; y < board._size; y++){
 
 }
 
-void backtracking(int position){
+bool Board::backtracking(int position){
     if(position == _board.size()){
         return true;
     }
-    int i = position / 9 , j = position % 9;
+    int i = (position % 9) - 1 , j = std::round(position / 9);
 
-    if(_board[i + j] == )
+    if(_board[i + j] != 0)
+        return backtracking(position + 1);
 }
 }
 

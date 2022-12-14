@@ -124,4 +124,5 @@ for(int y = 0; y < board._size; y++){
     }        
 
 }
+}
 

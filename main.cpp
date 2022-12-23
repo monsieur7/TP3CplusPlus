@@ -22,4 +22,7 @@ int main(void){
     board.fillGrid();
     std::cout << board.checkGridIsGood() << std::endl;
     board.display();
+    board.makeGridEasier();
+    board.backtracking(1);
+    board.display();
 }

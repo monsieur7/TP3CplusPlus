@@ -16,7 +16,8 @@ class Board {
         bool checkGridIsGood();
         Board(int size, int difficulty);
         void display();
-        void fillGrid();
+        bool fillGrid(int x=0, int y=0);
+        bool makeGridEasier();
         friend std::ostream& operator<<(std::ostream& in,const Board& board);
         bool backtracking(int position);
 };

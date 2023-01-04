@@ -40,34 +40,50 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
     }
 }
 
- void Board::fillGrid(){
+ bool Board::fillGrid(int x, int y){
+    //std::cout << " x " << x << " y " << y << std::endl;
     std::vector<int> already_done;
-    for(int y = 0; y < _size; y++){
-        for(int x = 0; x < _size; x++){
-            do {
-            int number_to_place;
-            do {
-                number_to_place = rand()  % 9 + 1;
-            }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
+        do {
 
-            
-            _board.at(y*_size+x) = number_to_place;
-            if(!checkGridIsGood()){
-             _board.at(y*_size+x) = 0;
+         int number_to_place;
+        do {
+                number_to_place = rand()  % _size + 1;
+         }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
+
+        _board.at(y*_size+x) = number_to_place;
+
+        while(!checkGridIsGood()){
+            if(std::find(already_done.begin(), already_done.end(), number_to_place) == already_done.end()){
+                already_done.push_back(number_to_place);
             }
-            else {
-                break;
-            }
-            }while(true);
-            already_done.clear();
+            if(already_done.size() == _size){   // we have tried everything
+                _board.at(y*_size+x+1) = 0; // for backtracking
+                //display(); 
+                //std::cout << "going back -1" << " x " << x << " y " << y << std::endl;
+                return false;
         }
-    display();
+        do {
+            number_to_place = rand()  % 9 + 1;
+         }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
+            _board.at(y*_size+x) = number_to_place;
+        }
 
-    }
-    //TODO : this
-    // fill perfect grid first
-    // then permutate
+        if(x == _size-1){
+            if(y == _size-1){
+                return true;
+            }
+            if(fillGrid(0, y+1)) return true;
+        }
+        else{
+            if(fillGrid(x+1, y)) return true;
+        }
+        already_done.clear();
+        // we backtracked !
+        _board.at(y*_size+x) = 0;
+        //display();
+        }while(true);
 
+    return false;
  }
   bool Board::checkGridIsGood(){ //TODO test this
      for(int y = 0; y < _size; y++){
@@ -80,7 +96,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
                     if(sum > 1) return false;
             }  
 
-                        
+
         }
     }
 
@@ -154,11 +170,11 @@ for(int y = 0; y < board._size; y++){
         }
         return in;
     }        
-
+return in;
 }
 
 bool Board::backtracking(int position){
-    if(position == _board.size()){
+    if(position == _board.size()-1){
         return true;
     }
     int i = (position % _size) , j = std::round(position / _size);
@@ -170,17 +186,26 @@ bool Board::backtracking(int position){
 
     for (int k=1; k <= _size; k++)
     {
-        if (checkGridIsGood() && checkCase(i, j));
-        {
-            _board.at(position) = k;
+         _board.at(position) = k;
 
+        if (checkGridIsGood()) // todo check function with row and col 
+        {
             if (backtracking(position+1))
                 return true;
         }
+        else {
+
+        }
     }
-    _board.at(position) == 0;
+    _board.at(position) = 0;
 
     return false;
 }
+bool Board::makeGridEasier(){
+    _board.at(0) = 0;
+    _board.at(35) = 0;
+
+}
+
 }
 

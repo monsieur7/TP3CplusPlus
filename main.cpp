@@ -18,6 +18,7 @@ int main(void){
 #endif
     Sudoku::Board board(9, 1);
     clock_t duration;
+    duration = clock();
 
     std::cout << board.checkGridIsGood() << std::endl;
     board.display();
@@ -28,4 +29,8 @@ int main(void){
     board.display();
     board.backtracking(1);
     board.display();
+    duration = clock() - duration;
+    std::cout << "La durée est de : " << duration/CLOCKS_PER_SEC << " secondes" << std::endl;
+
+
 }

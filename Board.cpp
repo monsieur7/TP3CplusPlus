@@ -1,5 +1,6 @@
 #include "Board.h"
 #include <cmath>
+#include <time.h>
 
 namespace Sudoku {
 Board::Board(int size, int difficulty){

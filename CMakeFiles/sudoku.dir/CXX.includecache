@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/mw/C++/TP3CplusPlus/Board.cpp
-Board.h
-/home/mw/C++/TP3CplusPlus/Board.h
-cmath
--
-
 /home/mw/C++/TP3CplusPlus/Board.h
 vector
 -

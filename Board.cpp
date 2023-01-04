@@ -173,12 +173,12 @@ return in;
 }
 
 bool Board::backtracking(int position){
-    if(position == _board.size()-1){
+    if(position == (int) _board.size()-1){
         return true;
     }
     int i = (position % _size) - 1 , j = std::round(position / _size);
 
-    if(_board[i + j * _size] != 0)
+    if(_board.at(i + j * _size) != 0)
         return backtracking(position + 1);
 
     for (int k=1; k <= _size; k++)
@@ -191,7 +191,7 @@ bool Board::backtracking(int position){
                 return true;
         }
         else {
-
+                _board.at(position) = 0;
         }
     }
     _board.at(position) = 0;

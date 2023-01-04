@@ -28,9 +28,11 @@ int main(void){
     board.display();
     board.makeGridEasier();
     board.display();
+    duration = clock();
     board.backtracking(0);
-    board.display();
     duration = clock() - duration;
+
+    board.display();
 
     board.display();
     std::cout << "La durée est de : " << duration/CLOCKS_PER_SEC << " secondes" << std::endl;

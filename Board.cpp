@@ -175,8 +175,8 @@ return in;
 }
 
 bool Board::backtracking(int position){
-    if(position == (int) _board.size()-1){
-        return true;
+    if(position == (int) _board.size()){
+                return true;
     }
     int i = (position % _size) , j = std::round(position / _size);
 
@@ -191,20 +191,25 @@ bool Board::backtracking(int position){
 
         if (checkGridIsGood()) // todo check function with row and col 
         {
-            if (backtracking(position+1))
+            
+     if (backtracking(position+1))
                 return true;
         }
         else {
                 _board.at(position) = 0;
         }
     }
-    _board.at(position) = 0;
-
+    
+    
     return false;
 }
 bool Board::makeGridEasier(){
-    _board.at(0) = 0;
-    _board.at(35) = 0;
+    srand(time(nullptr));
+for(int i = 0; i < _difficulty * 10 ; i++){
+   int pos = rand() % (_size*_size);
+    _board.at(pos) = 0;
+
+}
 
 }
 

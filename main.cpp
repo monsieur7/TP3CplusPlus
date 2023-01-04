@@ -16,7 +16,7 @@ int main(void){
     SetConsoleOutputCP(CP_UTF8);
     setvbuf(stdout, nullptr, _IOFBF, 1000);
 #endif
-    Sudoku::Board board(9, 1);
+    Sudoku::Board board(9, 5);
     clock_t duration;
     duration = clock();
 
@@ -27,7 +27,7 @@ int main(void){
     board.display();
     board.makeGridEasier();
     board.display();
-    board.backtracking(1);
+    board.backtracking(0);
     board.display();
     duration = clock() - duration;
     std::cout << "La durée est de : " << duration/CLOCKS_PER_SEC << " secondes" << std::endl;

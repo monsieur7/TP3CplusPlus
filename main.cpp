@@ -32,7 +32,7 @@ int main(void){
     auto start = std::chrono::high_resolution_clock::now();
     board.backtracking(0);
     auto stop = std::chrono::high_resolution_clock::now();
-    auto time =  std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+    auto time =  std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     board.display();
 
     board.display();

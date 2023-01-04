@@ -16,9 +16,10 @@ int main(void){
     SetConsoleOutputCP(CP_UTF8);
     setvbuf(stdout, nullptr, _IOFBF, 1000);
 #endif
-    Sudoku::Board board(9, 1);
+    Sudoku::Board board(9, 2);
     clock_t duration;
-    duration = clock();
+    int compte = 0;
+    int &compteref = compte;    
 
     std::cout << board.checkGridIsGood() << std::endl;
     board.display();
@@ -27,10 +28,14 @@ int main(void){
     board.display();
     board.makeGridEasier();
     board.display();
-    board.backtracking(0);
-    board.display();
+    duration = clock();
+    board.backtracking(0, compteref);
     duration = clock() - duration;
+
+    board.display();
     std::cout << "La durée est de : " << duration/CLOCKS_PER_SEC << " secondes" << std::endl;
+    std::cout << "Le nombre d'itérations: " << compteref << std::endl;
+
 
 
 }

@@ -174,14 +174,15 @@ for(int y = 0; y < board._size; y++){
 return in;
 }
 
-bool Board::backtracking(int position){
+bool Board::backtracking(int position, int &compteref){
     if(position == (int) _board.size()-1){
         return true;
     }
     int i = (position % _size) , j = std::round(position / _size);
 
     if(_board.at(i + j * _size) != 0){
-        return backtracking(position + 1);
+        compteref++;
+        return backtracking(position + 1, compteref);
 
     }
 
@@ -191,7 +192,7 @@ bool Board::backtracking(int position){
 
         if (checkGridIsGood()) // todo check function with row and col 
         {
-            if (backtracking(position+1))
+            if (backtracking(position+1, compteref))
                 return true;
         }
         else {

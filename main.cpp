@@ -28,6 +28,7 @@ int main(void){
     board.display();
     board.makeGridEasier();
     board.display();
+    duration = clock();
     board.backtracking(0);
     board.display();
     duration = clock() - duration;

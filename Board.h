@@ -19,7 +19,7 @@ class Board {
         bool fillGrid(int x=0, int y=0);
         bool makeGridEasier();
         friend std::ostream& operator<<(std::ostream& in,const Board& board);
-        bool backtracking(int position);
+        bool backtracking(int position, int &compteref);
 };
 
 }

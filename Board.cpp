@@ -12,6 +12,9 @@ Board::Board(int size, int difficulty){
     _difficulty =difficulty;
 
     }
+    if(size % 3 != 0){
+        throw std::runtime_error("size must be a multiple of 3 !");
+    }
     _board.resize(_size*_size);
     for(int i = 0; i < _board.size(); i++){
         _board.at(i) = 0;
@@ -92,7 +95,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
      for(int y = 0; y < _size; y++){
         for(int i = 1; i <= _size; i++ ){
             int sum = 0;
-            for(int x = 0; x < _size; x++){
+            for(int x = 0; x < _size; x++){ // check lines
                     if(_board.at(x+y*_size) == i){
                         sum++;
                     }
@@ -194,16 +197,12 @@ bool Board::backtracking(int position){
         if (checkGridIsGood()) // check is valid
         {
 
-        if (backtracking(position+1)){
+            if (backtracking(position+1)){
                 return true; // we propagate the "good news" that "everything" is valid 
-
+            }
         }
         else {
-            k=0; // resetting because we need to to it again
-        }
-        }
-        else {
-                _board.at(position) = 0; // what we did is wrong => clearing our case
+                _board.at(position) = 0; // what we did is wrong => clearing the case
         }
     }
 

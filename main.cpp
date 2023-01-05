@@ -20,7 +20,7 @@ int main(void){
 #endif
     Sudoku::Board board(9, 5);
     int compte = 0;
-    int &compteref = compte;    
+    int &compteref = compte;
 
     std::cout << board.checkGridIsGood() << std::endl;
     board.display();

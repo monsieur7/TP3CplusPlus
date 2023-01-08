@@ -4,6 +4,7 @@
 
 namespace Sudoku {
 Board::Board(int size, int difficulty){
+    srand(time(nullptr));
     _size = size;
     if(difficulty < 0 || difficulty > 5) {
         throw std::runtime_error("difficulty must be between 1 and 5");
@@ -12,23 +13,33 @@ Board::Board(int size, int difficulty){
     _difficulty =difficulty;
 
     }
-    if(size % 3 != 0){
-        throw std::runtime_error("size must be a multiple of 3 !");
+    int test=floor(sqrt(_size));
+    if( test*test != _size){
+        throw std::runtime_error("it need to be a perfect square number !");
     }
     _board.resize(_size*_size);
     for(int i = 0; i < _board.size(); i++){
         _board.at(i) = 0;
     }
+    _cache.resize(_size*_size);
+
 }
 void Board::display(){ //TODO display bigger lines outside 3*3 cases
     for(int y = 0; y < _size; y++){
         std::cout << "  ";// in order to align everything
         for(int x = 0; x < _size; x++){ // nice horizontal lne
+        if(_size > 9){
+            std::cout << "─────";
+        }else {
             std::cout << "────";
+        }
         }std::cout << std::endl;
 
         for(int x = 0; x < _size; x++){
             std::cout << " │ " << _board.at(y*_size + x);
+            if(_board.at(y*_size+x) < 9 && _size > 9){
+                std::cout << " ";
+            }
             if(x == _size - 1){
                 std::cout << " │";
             }
@@ -38,42 +49,40 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
         if(y == _size - 1){ // nice horizontal line for the last line
              std::cout << "  "; // in order to align everything
             for(int x = 0; x < _size; x++){
-            std::cout << "────";
-        }std::cout << std::endl;
+                if(_size > 9){
+                    std::cout << "─────";
+                }else {
+                    std::cout << "────";
+                }        
+            }std::cout << std::endl;
         }
     }
 }
 
  bool Board::fillGrid(int x, int y){
+    int i = 0;
+    int number_to_place;
     //std::cout << " x " << x << " y " << y << std::endl;
-    std::vector<int> already_done;
         do {
 
-         int number_to_place;
-        do { // selecting a number that we have not already used
-                number_to_place = rand()  % _size + 1;
-         }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
-
-        _board.at(y*_size+x) = number_to_place;
-
-        while(!checkGridIsGood()){ // try until the grid is valid
-            if(std::find(already_done.begin(), already_done.end(), number_to_place) == already_done.end()){ // security check 
-                already_done.push_back(number_to_place); // add to the list of number that we have alreay used
-            }
-            if(already_done.size() == _size){   // we have tried everything
-                _board.at(y*_size+x+1) = 0; // for backtracking
-
-                //display(); 
-                //std::cout << "going back -1" << " x " << x << " y " << y << std::endl;
-
-                return false;
+        do { // try until the grid is valid
+            if(_cache[(x+y*_size)].size() == _size){   // we have tried everything
+            //std::cout << "going back -1" << " x " << x << " y " << y << std::endl;
+            //display(); 
+            _board[(y*_size+x+1)] = 0; // for backtracking beacuse the next case is wrong => it goes faster
+            _cache[(x+y*_size)].clear();        
+            return false;
         } // we can try another number
+        else {
         do {
-            number_to_place = rand()  % _size + 1;
-         }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
-            _board.at(y*_size+x) = number_to_place; // testing it
+            number_to_place = (rand() % _size) + 1;
+         }while(std::find(_cache[(x+y*_size)].begin(), _cache[(x+y*_size)].end(), number_to_place) != _cache[(x+y*_size)].end());
+         _cache[(x+y*_size)].push_back(number_to_place);
+        _board[(y*_size+x)] = number_to_place; // testing it
         }
+        }while(!checkGridIsGood());
 
+       // display();
         if(x == _size-1){
             if(y == _size-1){
                 return true; // we are at the end
@@ -83,10 +92,11 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
         else{
             if(fillGrid(x+1, y)) return true;
         }
-        already_done.clear();
+        std::cout << "backtrack at x " << x << " y " << y << " size " << _cache[(x+y*_size)].size() << std::endl;            
         // we backtracked !
         _board.at(y*_size+x) = 0;
         //display();
+       // _cache[(x+y*_size)].clear();         
         }while(true);
 
     return false;
@@ -96,7 +106,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
         for(int i = 1; i <= _size; i++ ){
             int sum = 0;
             for(int x = 0; x < _size; x++){ // check lines
-                    if(_board.at(x+y*_size) == i){
+                    if(_board[(x+y*_size)] == i){
                         sum++;
                     }
                     if(sum > 1) return false;
@@ -113,7 +123,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
             // doing it manually
             int sum=0;
             for(int y = 0; y < _size; y++){
-                if(_board.at(y*_size+x) == i){
+                if(_board[(y*_size+x)] == i){
                     sum += 1;
                 }
             }
@@ -122,25 +132,26 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
             }
             }
     }
-    for(int y = 0; y < _size / 3; y++){ // check each subcase
-        for(int x = 0; x < _size/3; x++){
+    for(int y = 0; y < _size; y+= sqrt(_size)){ // check each subcase
+        for(int x = 0; x < _size; x+=sqrt(_size)){
             if(!this->checkCase(x, y)){
                 return false;
             }
         }
     }
     return true;
+
 }
 
 bool Board::checkCase(int case_x, int case_y) {
     int sum = 0;
     for(int i = 1; i <= _size; i++){
         sum = 0;
-        for(int y = 0; y < 3; y++){
-            for(int x = 0; x < 3; x++){
-                int x_coords = case_x*3 + x; // *3 because each subgrid is 3*3
-                int y_coords = case_y*3+ y;
-                if(_board.at(x_coords + y_coords*_size) == i){
+        for(int y = 0; y < (int)sqrt(_size); y++){
+            for(int x = 0; x < (int)sqrt(_size); x++){
+                int x_coords = case_x + x; // *3 because each subgrid is 3*3
+                int y_coords = case_y + y;
+                if(_board[(x_coords + y_coords*_size)] == i){
                     sum += 1;
                 }
         }
@@ -157,7 +168,11 @@ std::ostream& operator<<(std::ostream& in, const Board& board){
 for(int y = 0; y < board._size; y++){
         in << "  ";// in order to align everything
         for(int x = 0; x < board._size; x++){ // nice horizontal lne
-            in << "────";
+            if(board._size > 9){
+                in << "──────";
+            }else {
+                in << "───";
+            }
         }in << std::endl;
 
         for(int x = 0; x < board._size; x++){
@@ -169,9 +184,13 @@ for(int y = 0; y < board._size; y++){
 
         in << std::endl;
         if(y == board._size - 1){ // nice horizontal line for the last line
-             in << "  "; // in order to align everything
-            for(int x = 0; x < board._size; x++){
-            in << "────";
+        in << "  "; // in order to align everything
+        for(int x = 0; x < board._size; x++){
+            if(board._size > 9){
+                in << "──────";
+            }else {
+                in << "───";
+            }
         }in << std::endl;
         }
         return in;
@@ -208,15 +227,20 @@ bool Board::backtracking(int position){
 
     return false;
 }
-bool Board::makeGridEasier(){
+bool __attribute__((optimize("O0"))) Board::makeGridEasier(){ //COMPILER : DO NOT OPTIMIZE THIS
     srand(time(nullptr));
-for(int i = 0; i < _difficulty * 10 ; i++){
+    int i;
+    float difficulty = _difficulty/10.0f;
+for(i = 0; i <(int) (_size*_size * difficulty); i++){
    int pos = rand() % (_size*_size); // erasing a case at random
     _board.at(pos) = 0;
 
 }
-
+return true;
 }
-
+bool Board::fillGrid2(int pos){
+    //for(y = 0; y < _size; y++)
+    backtracking(0);
+    display();
 }
-
+}

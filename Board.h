@@ -21,7 +21,7 @@ class Board {
         bool fillGrid2(int pos = 0);
         bool makeGridEasier();
         friend std::ostream& operator<<(std::ostream& in,const Board& board);
-        bool backtracking(int position); // function that solves our sudoku !
+        bool backtracking(int position, int & comptref); // function that solves our sudoku !
 
 };
 

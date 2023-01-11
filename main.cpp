@@ -33,7 +33,8 @@ int main(void){
     board.makeGridEasier();
     board.display();
     start = std::chrono::high_resolution_clock::now();
-    board.backtracking(0);
+
+    board.backtracking(0, compteref);
     stop = std::chrono::high_resolution_clock::now();
     auto time_solve = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
     board.display();

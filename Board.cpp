@@ -198,14 +198,15 @@ for(int y = 0; y < board._size; y++){
 return in;
 }
 
-bool Board::backtracking(int position){
+bool Board::backtracking(int position, int & comptref){
+    ++comptref;
     if(position == (int) _board.size()){
                 return true;
     }
     int i = (position % _size) , j = std::round(position / _size); // convert linear to x /y coordinates
 
     if(_board.at(i + j * _size) != 0){ // this case is already filled => skip it
-        return backtracking(position + 1);
+        return backtracking(position + 1, comptref);
 
     }
 
@@ -216,7 +217,7 @@ bool Board::backtracking(int position){
         if (checkGridIsGood()) // check is valid
         {
 
-            if (backtracking(position+1)){
+            if (backtracking(position+1, comptref)){
                 return true; // we propagate the "good news" that "everything" is valid 
             }
         }
@@ -230,7 +231,7 @@ bool Board::backtracking(int position){
 bool __attribute__((optimize("O0"))) Board::makeGridEasier(){ //COMPILER : DO NOT OPTIMIZE THIS
     srand(time(nullptr));
     int i;
-    float difficulty = _difficulty/10.0f;
+    float difficulty = _difficulty/20.0f;
 for(i = 0; i <(int) (_size*_size * difficulty); i++){
    int pos = rand() % (_size*_size); // erasing a case at random
     _board.at(pos) = 0;
@@ -240,7 +241,7 @@ return true;
 }
 bool Board::fillGrid2(int pos){
     //for(y = 0; y < _size; y++)
-    backtracking(0);
+    //backtracking(0, null);
     display();
 }
 }

@@ -2,6 +2,8 @@
 #include <vector>
 #include "Board.h"
 #include <ctime>
+#include <chrono>
+
 #ifdef _WIN64 
 #include <windows.h>
 #endif
@@ -28,13 +30,14 @@ int main(void){
     board.display();
     board.makeGridEasier();
     board.display();
-    duration = clock();
+    auto start = std::chrono::high_resolution_clock::now();
     board.backtracking(0);
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto time =  std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     board.display();
-    duration = clock() - duration;
 
     board.display();
-    std::cout << "La durée est de : " << duration/CLOCKS_PER_SEC << " secondes" << std::endl;
+    std::cout << "La durée est de : " << time.count() << " ms" << std::endl;
     std::cout << "Le nombre d'itérations: " << compteref << std::endl;
 
 

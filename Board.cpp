@@ -93,7 +93,7 @@ void Board::display(){ //
 
     return false;
  }
-  bool Board::checkGridIsGood(){ /
+  bool Board::checkGridIsGood(){ 
      for(int y = 0; y < _size; y++){ // check horizontal lines
         for(int i = 1; i <= _size; i++ ){
             int sum = 0;

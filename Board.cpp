@@ -24,7 +24,7 @@ Board::Board(int size, int difficulty){
     _cache.resize(_size*_size);
 
 }
-void Board::display(){ //TODO display bigger lines outside 3*3 cases
+void Board::display(){ //
     for(int y = 0; y < _size; y++){
         std::cout << "  ";// in order to align everything
         for(int x = 0; x < _size; x++){ // nice horizontal lne
@@ -94,15 +94,14 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
         }
         std::cout << "backtrack at x " << x << " y " << y << " size " << _cache[(x+y*_size)].size() << std::endl;            
         // we backtracked !
-        _board.at(y*_size+x) = 0;
         //display();
        // _cache[(x+y*_size)].clear();         
         }while(true);
 
     return false;
  }
-  bool Board::checkGridIsGood(){ //TODO test this
-     for(int y = 0; y < _size; y++){
+  bool Board::checkGridIsGood(){ 
+     for(int y = 0; y < _size; y++){ // check horizontal lines
         for(int i = 1; i <= _size; i++ ){
             int sum = 0;
             for(int x = 0; x < _size; x++){ // check lines
@@ -144,6 +143,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
 }
 
 bool Board::checkCase(int case_x, int case_y) {
+    const int size = sqrt(_size*_size);
     int sum = 0;
     for(int i = 1; i <= _size; i++){
         sum = 0;

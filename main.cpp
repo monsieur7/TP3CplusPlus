@@ -4,7 +4,7 @@
 #include <ctime>
 #include <chrono>
 
-#define SIZE 30
+#define SIZE 9      
 #ifdef _WIN64 
 #include <windows.h>
 #endif

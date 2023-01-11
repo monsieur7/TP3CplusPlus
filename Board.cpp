@@ -86,7 +86,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
         else{
             if(fillGrid(x+1, y)) return true;
         }
-        std::cout << "backtracked x" << x << " y " << y << " count " << already_done.size() << std::endl;
+        std::cout << "backtracked x " << x << " y " << y << " count " << already_done.size() << std::endl;
         // we backtracked !
         //display();
         }while(true);

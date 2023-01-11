@@ -51,7 +51,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
         do {
 
          int number_to_place;
-        do {
+        do { // selecting a number that we have not already used
                 number_to_place = rand()  % _size + 1;
          }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
 
@@ -68,19 +68,20 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
                 // it neables us to search faster for valid solutions
                 //display(); 
                 //std::cout << "going back -1" << " x " << x << " y " << y << std::endl;
+
                 return false;
-        }
+        } // we can try another number
         do {
             number_to_place = rand()  % _size + 1;
          }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
-            _board.at(y*_size+x) = number_to_place;
+            _board.at(y*_size+x) = number_to_place; // testing it
         }
 
         if(x == _size-1){
             if(y == _size-1){
-                return true;
+                return true; // we are at the end
             }
-            if(fillGrid(0, y+1)) return true;
+            if(fillGrid(0, y+1)) return true; // we are at the end of a line
         }
         else{
             if(fillGrid(x+1, y)) return true;
@@ -96,12 +97,12 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
      for(int y = 0; y < _size; y++){
         for(int i = 1; i <= _size; i++ ){
             int sum = 0;
-            for(int x = 0; x < _size; x++){
+            for(int x = 0; x < _size; x++){ // check lines
                     if(_board.at(x+y*_size) == i){
                         sum++;
                     }
                     if(sum > 1) return false;
-            }  
+            }
 
 
         }
@@ -185,35 +186,35 @@ bool Board::backtracking(int position){
     if(position == (int) _board.size()){
                 return true;
     }
-    int i = (position % _size) , j = std::round(position / _size);
+    int i = (position % _size) , j = std::round(position / _size); // convert linear to x /y coordinates
 
-    if(_board.at(i + j * _size) != 0){
+    if(_board.at(i + j * _size) != 0){ // this case is already filled => skip it
         return backtracking(position + 1);
 
     }
 
-    for (int k=1; k <= _size; k++)
+    for (int k=1; k <= _size; k++) // testing every possibility
     {
          _board.at(position) = k;
 
-        if (checkGridIsGood()) // todo check function with row and col 
+        if (checkGridIsGood()) // check is valid
         {
-            
-     if (backtracking(position+1))
-                return true;
+
+            if (backtracking(position+1)){
+                return true; // we propagate the "good news" that "everything" is valid 
+            }
         }
         else {
-                _board.at(position) = 0;
+                _board.at(position) = 0; // what we did is wrong => clearing the case
         }
     }
-    
-    
+
     return false;
 }
 bool Board::makeGridEasier(){
     srand(time(nullptr));
 for(int i = 0; i < _difficulty * 10 ; i++){
-   int pos = rand() % (_size*_size);
+   int pos = rand() % (_size*_size); // erasing a case at random
     _board.at(pos) = 0;
 }
 

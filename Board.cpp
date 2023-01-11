@@ -140,7 +140,7 @@ bool Board::checkCase(int case_x, int case_y) {
     for(int i = 1; i <= _size; i++){
         sum = 0;
         for(int y = 0; y < size; y++){
-            for(int x = 0; x <size; x++){
+            for(int x = 0; x < size; x++){
                 int x_coords = case_x*size + x; // *sqrt(_size*_size) because each subgrid is a sqrt(_size*_size)*sqrt(_size*_size) (3*3 if we are on a 9*9 grid)
                 int y_coords = case_y*size + y;
                 if(_board.at(x_coords + y_coords*_size) == i){

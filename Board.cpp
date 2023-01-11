@@ -37,8 +37,8 @@ void Board::display(){ //
 
         for(int x = 0; x < _size; x++){
             std::cout << " │ " << _board.at(y*_size + x);
-            if(_board.at(y*_size+x) < 9 && _size > 9){
-                std::cout << " ";
+            if(_board.at(y*_size+x) <= 9 && _size > 9){
+                std::cout << " ";// in order for everything to be aligned 
             }
             if(x == _size - 1){
                 std::cout << " │";
@@ -168,15 +168,18 @@ std::ostream& operator<<(std::ostream& in, const Board& board){
 for(int y = 0; y < board._size; y++){
         in << "  ";// in order to align everything
         for(int x = 0; x < board._size; x++){ // nice horizontal lne
-            if(board._size > 9){
-                in << "──────";
-            }else {
-                in << "───";
-            }
+        if(board._size > 9){
+            in << "─────";
+        }else {
+            in << "────";
+        }
         }in << std::endl;
 
         for(int x = 0; x < board._size; x++){
             in << " │ " << board._board.at(y*board._size + x);
+            if(board._board.at(y*board._size+x) <= 9 && board._size > 9){
+                in << " "; // in order for everything to be aligned
+            }
             if(x == board._size - 1){
                 in << " │";
             }
@@ -184,17 +187,16 @@ for(int y = 0; y < board._size; y++){
 
         in << std::endl;
         if(y == board._size - 1){ // nice horizontal line for the last line
-        in << "  "; // in order to align everything
-        for(int x = 0; x < board._size; x++){
-            if(board._size > 9){
-                in << "──────";
-            }else {
-                in << "───";
-            }
-        }in << std::endl;
+             in << "  "; // in order to align everything
+            for(int x = 0; x < board._size; x++){
+                if(board._size > 9){
+                    in << "─────";
+                }else {
+                    in << "────";
+                }        
+            }in << std::endl;
         }
-        return in;
-    }        
+    }
 return in;
 }
 

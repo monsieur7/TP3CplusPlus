@@ -12,6 +12,10 @@ Board::Board(int size, int difficulty){
     _difficulty =difficulty;
 
     }
+    float perfect_square = (int)sqrt(_size*_size);
+    if((perfect_square * perfect_square) == _size){
+        throw std::runtime_error("the size need to be a perfect square");
+    }
     _board.resize(_size*_size);
     for(int i = 0; i < _board.size(); i++){
         _board.at(i) = 0;
@@ -52,19 +56,22 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
          }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
 
         _board.at(y*_size+x) = number_to_place;
+        already_done.push_back(number_to_place);
 
         while(!checkGridIsGood()){
-            if(std::find(already_done.begin(), already_done.end(), number_to_place) == already_done.end()){
-                already_done.push_back(number_to_place);
-            }
+            
             if(already_done.size() == _size){   // we have tried everything
+            if(y != _size - 1 && x != _size - 1){
                 _board.at(y*_size+x+1) = 0; // for backtracking
+
+            }
+                // it neables us to search faster for valid solutions
                 //display(); 
                 //std::cout << "going back -1" << " x " << x << " y " << y << std::endl;
                 return false;
         }
         do {
-            number_to_place = rand()  % 9 + 1;
+            number_to_place = rand()  % _size + 1;
          }while(std::find(already_done.begin(), already_done.end(), number_to_place) != already_done.end());
             _board.at(y*_size+x) = number_to_place;
         }
@@ -78,9 +85,8 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
         else{
             if(fillGrid(x+1, y)) return true;
         }
-        already_done.clear();
+        std::cout << "backtracked x" << x << " y " << y << " count " << already_done.size() << std::endl;
         // we backtracked !
-        _board.at(y*_size+x) = 0;
         //display();
         }while(true);
 
@@ -88,7 +94,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
  }
   bool Board::checkGridIsGood(){ //TODO test this
      for(int y = 0; y < _size; y++){
-        for(int i = 1; i < 10; i++ ){
+        for(int i = 1; i <= _size; i++ ){
             int sum = 0;
             for(int x = 0; x < _size; x++){
                     if(_board.at(x+y*_size) == i){
@@ -102,7 +108,7 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
     }
 
     for(int x = 0; x < _size; x++){ // check vertical lines
-        for(int i = 1; i < 10; i++ ){
+        for(int i = 1; i <= _size; i++ ){
             //TODO : ask teacher : can we use std::count ? 
             //cant use count on vertical lines
             // doing it manually
@@ -117,8 +123,8 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
             }
             }
     }
-    for(int y = 0; y < _size / 3; y++){ // check each subcase
-        for(int x = 0; x < _size/3; x++){
+    for(int y = 0; y < _size; y+= sqrt(_size*_size)){ // check each subcase
+        for(int x = 0; x < _size; x+= sqrt(_size*_size)){
             if(!this->checkCase(x, y)){
                 return false;
             }
@@ -128,13 +134,14 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
 }
 
 bool Board::checkCase(int case_x, int case_y) {
+    const int size = sqrt(_size*_size);
     int sum = 0;
-    for(int i = 1; i <= 9; i++){
+    for(int i = 1; i <= _size; i++){
         sum = 0;
-        for(int y = 0; y < 3; y++){
-            for(int x = 0; x < 3; x++){
-                int x_coords = case_x*3 + x; // *3 because each subgrid is 3*3
-                int y_coords = case_y*3+ y;
+        for(int y = 0; y < size; y++){
+            for(int x = 0; x <size; x++){
+                int x_coords = case_x*size + x; // *sqrt(_size*_size) because each subgrid is a sqrt(_size*_size)*sqrt(_size*_size) (3*3 if we are on a 9*9 grid)
+                int y_coords = case_y*size + y;
                 if(_board.at(x_coords + y_coords*_size) == i){
                     sum += 1;
                 }
@@ -208,7 +215,6 @@ bool Board::makeGridEasier(){
 for(int i = 0; i < _difficulty * 10 ; i++){
    int pos = rand() % (_size*_size);
     _board.at(pos) = 0;
-
 }
 
 }

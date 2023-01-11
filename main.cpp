@@ -24,19 +24,23 @@ int main(void){
 
     std::cout << board.checkGridIsGood() << std::endl;
     board.display();
+    auto start = std::chrono::high_resolution_clock::now();
     board.fillGrid();
+    auto stop = std::chrono::high_resolution_clock::now();
+
     std::cout << board.checkGridIsGood() << std::endl;
+    std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(stop - start).count() / 1000 << "s" << std::endl;
     board.display();
     board.makeGridEasier();
     board.display();
-    auto start = std::chrono::high_resolution_clock::now();
+    start = std::chrono::high_resolution_clock::now();
     board.backtracking(0);
-    auto stop = std::chrono::high_resolution_clock::now();
-    auto time =  std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+    stop = std::chrono::high_resolution_clock::now();
+    auto time_backtrack =  std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
     board.display();
 
     board.display();
-    std::cout << "La durée est de : " << time.count() << " ms" << std::endl;
+    std::cout << "La durée est de : " << time_backtrack.count() << " ms" << std::endl;
     std::cout << "Le nombre d'itérations: " << compteref << std::endl;
 
 

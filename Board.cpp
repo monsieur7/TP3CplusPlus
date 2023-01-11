@@ -124,8 +124,8 @@ void Board::display(){ //
             }
             }
     }
-    for(int y = 0; y < _size; y+= sqrt(_size*_size)){ // check each subcase
-        for(int x = 0; x < _size; x+= sqrt(_size*_size)){
+    for(int y = 0; y < _size; y+= sqrt(_size)){ // check each subcase
+        for(int x = 0; x < _size; x+= sqrt(_size)){
             if(!this->checkCase(x, y)){
                 return false;
             }

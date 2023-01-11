@@ -21,7 +21,7 @@ Board::Board(int size, int difficulty){
         _board.at(i) = 0;
     }
 }
-void Board::display(){ //TODO display bigger lines outside 3*3 cases
+void Board::display(){ //
     for(int y = 0; y < _size; y++){
         std::cout << "  ";// in order to align everything
         for(int x = 0; x < _size; x++){ // nice horizontal lne
@@ -63,9 +63,9 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
             if(already_done.size() == _size){   // we have tried everything
             if(y != _size - 1 && x != _size - 1){
                 _board.at(y*_size+x+1) = 0; // for backtracking
+                // it enables us to search faster for valid solutions
 
             }
-                // it neables us to search faster for valid solutions
                 //display(); 
                 //std::cout << "going back -1" << " x " << x << " y " << y << std::endl;
 
@@ -93,8 +93,8 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
 
     return false;
  }
-  bool Board::checkGridIsGood(){ //TODO test this
-     for(int y = 0; y < _size; y++){
+  bool Board::checkGridIsGood(){ /
+     for(int y = 0; y < _size; y++){ // check horizontal lines
         for(int i = 1; i <= _size; i++ ){
             int sum = 0;
             for(int x = 0; x < _size; x++){ // check lines
@@ -124,8 +124,8 @@ void Board::display(){ //TODO display bigger lines outside 3*3 cases
             }
             }
     }
-    for(int y = 0; y < _size; y+= sqrt(_size*_size)){ // check each subcase
-        for(int x = 0; x < _size; x+= sqrt(_size*_size)){
+    for(int y = 0; y < _size; y+= sqrt(_size)){ // check each subcase
+        for(int x = 0; x < _size; x+= sqrt(_size)){
             if(!this->checkCase(x, y)){
                 return false;
             }
@@ -140,7 +140,7 @@ bool Board::checkCase(int case_x, int case_y) {
     for(int i = 1; i <= _size; i++){
         sum = 0;
         for(int y = 0; y < size; y++){
-            for(int x = 0; x <size; x++){
+            for(int x = 0; x < size; x++){
                 int x_coords = case_x*size + x; // *sqrt(_size*_size) because each subgrid is a sqrt(_size*_size)*sqrt(_size*_size) (3*3 if we are on a 9*9 grid)
                 int y_coords = case_y*size + y;
                 if(_board.at(x_coords + y_coords*_size) == i){

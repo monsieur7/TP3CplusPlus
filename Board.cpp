@@ -241,9 +241,5 @@ for(i = 0; i <(int) (_size*_size * difficulty); i++){
 }
 return true;
 }
-bool Board::fillGrid2(int pos){
-    //for(y = 0; y < _size; y++)
-    //backtracking(0, null);
-    display();
-}
+
 }

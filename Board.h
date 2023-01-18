@@ -18,7 +18,6 @@ class Board {
         Board(int size, int difficulty);
         void display();
         bool fillGrid(int x=0, int y=0);
-        bool fillGrid2(int pos = 0);
         bool makeGridEasier();
         friend std::ostream& operator<<(std::ostream& in,const Board& board);
         bool backtracking(int position, int & comptref); // function that solves our sudoku !

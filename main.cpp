@@ -19,7 +19,7 @@ int main(void){
     SetConsoleOutputCP(CP_UTF8);
     setvbuf(stdout, nullptr, _IOFBF, 1000);
 #endif
-    Sudoku::Board board(SIZE, 5);
+    Sudoku::Board board(SIZE, 3);
     int compte = 0;
     int &compteref = compte;
     std::cout <<  "sudoku of size " << SIZE << "*" << SIZE << std::endl;
@@ -32,6 +32,7 @@ int main(void){
     std::cout << board.checkGridIsGood() << std::endl;
     board.makeGridEasier();
     board.display();
+    std::cout << "on résoud le sudoku" << std::endl;
     start = std::chrono::high_resolution_clock::now();
 
     board.backtracking(0, compteref);

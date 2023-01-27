@@ -92,7 +92,7 @@ void Board::display(){ //
         else{
             if(fillGrid(x+1, y)) return true;
         }
-        std::cout << "backtrack at x " << x << " y " << y << " size " << _cache[(x+y*_size)].size() << std::endl;            
+        //std::cout << "backtrack at x " << x << " y " << y << " size " << _cache[(x+y*_size)].size() << std::endl;            
         // we backtracked !
         //display();
        // _cache[(x+y*_size)].clear();         
@@ -230,21 +230,33 @@ bool Board::backtracking(int position, int & comptref){
 
     return false;
 }
-bool __attribute__((optimize("O0"))) Board::makeGridEasier(){ //COMPILER : DO NOT OPTIMIZE THIS
+void __attribute__((optimize("O0"))) Board::makeGridEasier(){ //COMPILER : DO NOT OPTIMIZE THIS
     int temp_void;
     srand(time(nullptr));
     int i;
+    int pos, save_value;
     float difficulty = _difficulty/20.0f;
+    std::vector<int> cache_grid;
+    int num_retires = 0;
 for(i = 0; i <(int) (_size*_size * difficulty); i++){
 
-   int pos = rand() % (_size*_size); // erasing a case at random
-   int save = _board.at(pos);
-    _board.at(pos) = 0;
-    if(backtracking(0, temp_void) == false){
-        _board.at(pos) = save;
+    pos = rand() % (_size*_size); // erasing a case at random
+    save_value = _board.at(pos); // saving for restauration in case we fail.
+
+    _board.at(pos) = 0; // erasing value
+    cache_grid = _board; // saving in case we succefully erase a value
+    bool res = backtracking(0, temp_void);
+    if(res == false){
+        std::cerr << "failed to remove" << std::endl;
+        _board.at(pos) = save_value;
     }
+    else {
+        num_retires++;
+        _board = cache_grid;
+    }
+        //std::cout << pos << " " << _board.at(pos) << std::endl;
 }
-return true;
+std::cout << "on a retiré " << num_retires << " valeurs" << std::endl;
 }
 
 }

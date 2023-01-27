@@ -12,13 +12,14 @@ class Board {
         int _difficulty;
         //TODO : IMPORTANT
         bool checkCase(int case_x, int case_y); 
+    
 
     public:
         bool checkGridIsGood();
         Board(int size, int difficulty);
         void display();
         bool fillGrid(int x=0, int y=0);
-        bool makeGridEasier();
+        void makeGridEasier();
         friend std::ostream& operator<<(std::ostream& in,const Board& board);
         bool backtracking(int position, int & comptref); // function that solves our sudoku !
 

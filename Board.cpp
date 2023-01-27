@@ -231,13 +231,18 @@ bool Board::backtracking(int position, int & comptref){
     return false;
 }
 bool __attribute__((optimize("O0"))) Board::makeGridEasier(){ //COMPILER : DO NOT OPTIMIZE THIS
+    int temp_void;
     srand(time(nullptr));
     int i;
     float difficulty = _difficulty/20.0f;
 for(i = 0; i <(int) (_size*_size * difficulty); i++){
-   int pos = rand() % (_size*_size); // erasing a case at random
-    _board.at(pos) = 0;
 
+   int pos = rand() % (_size*_size); // erasing a case at random
+   int save = _board.at(pos);
+    _board.at(pos) = 0;
+    if(backtracking(0, temp_void) == false){
+        _board.at(pos) = save;
+    }
 }
 return true;
 }

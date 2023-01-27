@@ -3,7 +3,7 @@
 #include "Board.h"
 #include <ctime>
 #include <chrono>
-#define SIZE 16
+#define SIZE 9
 #ifdef _WIN64 
 #include <windows.h>
 #endif
